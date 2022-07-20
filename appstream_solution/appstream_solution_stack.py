@@ -1,3 +1,4 @@
+from email.mime import application
 from aws_cdk import Stack
 import aws_cdk as cdk
 import os
@@ -42,3 +43,21 @@ class AppstreamSolutionStack(Stack):
                                        )
                                      )
 
+        cfn_stack = appstream.CfnStack (self, "AppstreamNonProd-Phoenix-solution-Stack"),
+        application_settings = appstream.CfnStack.ApplicationSettingsProperty(
+            enabled = False
+        ),
+        description = 'Phoenix Appstream Solution Stack',
+        display_name = core_config['name'],
+        redirect_url = core_config['redirectURL']
+        storage_connectors  = [appstream.CfnStack.StorageConnectorProperty(
+            connector_type = 'HOMEFOLDERS'
+        )],
+        streaming_experiance_seetings = appstream.CfnStack.StreamingExperienceSettingsProperty(
+            preferred_protocol = 'TCP'
+        ),
+        user_settings = [appstream.CfnStack.UserSettingProperty(
+            action = 'PRINTING_TO_LOCAL_DEVICE',
+            permission = 'ENABLED'
+        )]
+            

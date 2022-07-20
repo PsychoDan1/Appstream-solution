@@ -1,0 +1,30 @@
+  environment:
+    # Indicate the name of the environment, the name will be serve as a prefix for the environment resources.
+      name: "AppstreamNonProd-Phoenix-solution"
+      # Indicate the URL that users are redirected to after their streaming session ends.
+      redirectURL: "https://www.myapps.microsoft.com" # Default: https://allcloud.io
+      # Compute configuration for the AppStream Fleet options
+      instanceType: "stream.standard.large" #Default: stream.standard.medium
+      #imageName: "fnx-win2019-image-04072022-2" # Default: AppStream-WinServer2019-03-03-2022
+      imageName: "AppStream-WinServer2019-03-03-2022" # Default: AppStream-WinServer2019-03-03-2022
+      # Indicate the minimum capacity for the AWS AppStream fleet
+      minCapacity: 10
+      # Indicate the maximum capacity for the AWS AppStream fleet
+      maxCapacity: 20
+      # Indicate the stream session view for the user within the fleet
+      streamView: "DESKTOP" # Default: APP
+      # Indicate the user settings for the action that the user can perform within the environment.
+      # Allowed Values:
+      # FileDownload, FileUpload, ClipboardCopyFromLocalDevice, ClipboardCopyToLocalDevice, PrintToLocalDevice.
+      allowedUserActions: [ClipboardCopyFromLocalDevice,ClipboardCopyToLocalDevice] # Default: empty list - deny all
+      # Indicate the configuration for streaming session within the environment.
+      streamSessionOptions:
+      # To prevent users from being disconnected due to inactivity, specify a value of 0. Otherwise, specify a value between 60 and 3600.
+      idleDisconnectTimeoutInSeconds: 3600 # Default: 0
+      # Specify a value between 600 and 360000.
+      maxUserDurationInSeconds: 18000 # Default: 18000 (5 Hours)
+      disconnectTimeoutInSeconds: 300 # Default: 300
+      # The VPC Id for the AppStream Fleet
+      vpcID: "vpc-0b12613ac3e39319a"
+      # The subnets for the AppStream Fleet
+      subnets: ["subnet-03788fef9a7e6f0ad","subnet-01cd7e298d5252a02"]
