@@ -1,9 +1,16 @@
-from aws_cdk import Stack, aws_iam as iam
+from aws_cdk import Stack
 import aws_cdk as cdk
 import os
 from constructs import Construct
 import aws_cdk.aws_appstream as appstream
 from appstream_solution import vars
+import yaml
+
+with open('manifest.yml', 'rb') as f:
+        config = yaml.safe_load(f)
+
+core_config = config['environment']
+
 
 class AppstreamSolutionStack(Stack):
 
@@ -11,27 +18,28 @@ class AppstreamSolutionStack(Stack):
         super().__init__(scope, construct_id, **kwargs)
 
         cfn_fleet = appstream.CfnFleet(self, "AppstreamNonProd-Phoenix-solution-fleet",
-            instance_type = vars.instanceType,
-            name="AppstreamNonProd-Phoenix-solution-fleet",
-            compute_capacity = appstream.CfnFleet.ComputeCapacityProperty(
-                desired_instances = 20
-            ),
-            description = "AppstreamNonProd-Phoenix-solution",
-            disconnect_timeout_in_seconds = 7200,
-            idle_disconnect_timeout_in_seconds = 960,
-            enable_default_internet_access = False,
-            fleet_type = "ALWAYS_ON",
-            image_name = vars.imageName,
-            max_user_duration_in_seconds = 57600,
-            stream_view = vars.streamView,
-            tags = [cdk.CfnTag(
-                key = "Name",
-                value = "AppstreamNonProd-Phoenix-solution"
-            )],
-            vpc_config = appstream.CfnFleet.VpcConfigProperty(
-                security_group_ids = ["sg-015ddf2746c8025a2"],
-                subnet_ids = vars.subnets
-            )
-
-        )
+                                       instance_type = core_config['instanceType'],
+                                       name = core_config['name'],
+                                       compute_capacity = appstream.CfnFleet.ComputeCapacityProperty(
+                                       desired_instances = 20
+                                       ),
+            
+                                       description = core_config['name'],
+                                       disconnect_timeout_in_seconds = core_config['disconnectTimeoutInSeconds'],
+                                       idle_disconnect_timeout_in_seconds = core_config['idleDisconnectTimeoutInSeconds'],
+                                       enable_default_internet_access = False,
+                                       fleet_type = "ALWAYS_ON",
+                                       image_name = core_config['imageName'],
+                                       max_user_duration_in_seconds = core_config['maxUserDurationInSeconds'],
+                                       stream_view = core_config['streamView'],
+                                       tags = [cdk.CfnTag(
+                                           key = "Name",
+                                           value = core_config['name']
+                                       )],
+            
+                                       vpc_config = appstream.CfnFleet.VpcConfigProperty(
+                                           security_group_ids = ["sg-015ddf2746c8025a2"],
+                                           subnet_ids = core_config['subnets']
+                                       )
+                                     )
 

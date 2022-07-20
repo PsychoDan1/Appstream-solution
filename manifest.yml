@@ -1,6 +1,6 @@
   environment:
     # Indicate the name of the environment, the name will be serve as a prefix for the environment resources.
-      name: nonprod-core
+      name: "AppstreamNonProd-Phoenix-solution-fleet"
       # Indicate the URL that users are redirected to after their streaming session ends.
       redirectURL: "https://www.myapps.microsoft.com" # Default: https://allcloud.io
       # Compute configuration for the AppStream Fleet options
