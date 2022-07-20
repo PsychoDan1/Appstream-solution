@@ -3,10 +3,9 @@ import aws_cdk as cdk
 import os
 from constructs import Construct
 import aws_cdk.aws_appstream as appstream
-from appstream_solution import vars
 import yaml
 
-with open('manifest.yml', 'rb') as f:
+with open('./appstream_solution/manifest.yml', 'rb') as f:
         config = yaml.safe_load(f)
 
 core_config = config['environment']
